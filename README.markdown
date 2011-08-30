@@ -1,2 +1,1 @@
-Starting out on webOS, followed by Android, then possibly iOS. Perhaps PhoneGap
-for cross platform use.
+A combination of services provided by makercalc.appspot.com paired with sensors and input from mobile devices.
