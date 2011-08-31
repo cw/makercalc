@@ -5,7 +5,11 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class MainPage(webapp.RequestHandler):
   def get(self):
-    greetings = 'Hello, makers!'
+    user_agent = str(self.request.headers['User-Agent'])
+    source = "web"
+    if "makercalc_android_app" in user_agent:
+      source = "Android"
+    greetings = 'Hello, %s makers!' % (source,)
     template_values = {
       'greetings': greetings,
       'url': "url woo!",
