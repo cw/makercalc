@@ -14,6 +14,10 @@ public class Main extends Activity {
     WebView myWebView = (WebView) findViewById(R.id.webview);
     WebSettings webSettings = myWebView.getSettings();
     webSettings.setJavaScriptEnabled(true);
+    
+    String ua = webSettings.getUserAgentString();
+    
+    webSettings.setUserAgentString(ua + "; makercalc_android_app");
     myWebView.loadUrl("http://makercalc.appspot.com");
   }
 }
