@@ -7,11 +7,12 @@
 <body>
 {% block content %}{% endblock content %}
 <script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/underscore.min.js"></script>
+<script type="text/javascript" src="js/backbone.min.js"></script>
+<script type="text/javascript" src="js/views.js"></script>
 <script type="text/javascript">
-var myCallback = function(i, width) {
-  var msg = "i: " + i + ", width: " + width + "<br/>";
-  $("#content").append(msg);
-};
+var msgAppender = new MsgAppender(),
+  myCallback = msgAppender.adapt_callback;
 
 var ADAPT_CONFIG = {
   path: 'css/',
