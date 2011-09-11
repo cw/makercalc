@@ -4,11 +4,18 @@ import android.app.Activity;
 //import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 class MyWebViewClient extends WebViewClient {
+	
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (Uri.parse(url).getHost().equals("makercalc.appspot.com")) {
@@ -23,6 +30,11 @@ class MyWebViewClient extends WebViewClient {
 }
 
 public class Main extends Activity {
+	
+  private static final String LOG_TAG = "WebViewDemo";
+  private WebView myWebView;
+  private Handler mHandler = new Handler();
+	
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -30,11 +42,55 @@ public class Main extends Activity {
     setContentView(R.layout.main);
     WebView myWebView = (WebView) findViewById(R.id.webview);
     myWebView.setWebViewClient(new MyWebViewClient());
+    myWebView.addJavascriptInterface(new DemoJavaScriptInterface(), "demo");
     WebSettings webSettings = myWebView.getSettings();
     webSettings.setJavaScriptEnabled(true);
     
     String ua = webSettings.getUserAgentString();
     webSettings.setUserAgentString(ua + "; makercalc_android_app");
     myWebView.loadUrl("http://makercalc.appspot.com");
+  }
+  
+  final class DemoJavaScriptInterface {
+
+	    DemoJavaScriptInterface() {
+	    }
+
+	    /**
+	     * This is not called on the UI thread. Post a runnable to invoke
+	     * loadUrl on the UI thread.
+	     */
+	    public void clickOnAndroid() {
+	        mHandler.post(new Runnable() {
+	            public void run() {
+	            	try {
+	            		myWebView.loadUrl("javascript:window.wave()");
+	            	} catch (Exception err) {
+	            		Log.d(LOG_TAG, "why isn't this working?");
+	            	}
+	            }
+	        });
+
+	    }
+	}
+  
+  /**
+   * Provides a hook for calling "alert" from javascript. Useful for
+   * debugging your javascript.
+   */
+  final class MyWebChromeClient extends WebChromeClient {
+      @Override
+      public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+          Log.d(LOG_TAG, message);
+          result.confirm();
+          return true;
+      }
+  }
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.settings, menu);
+      return true;
   }
 }

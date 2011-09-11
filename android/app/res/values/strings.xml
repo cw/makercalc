@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">makercalc</string>
+    <string name="new_game">New game</string>
+    <string name="help">Help</string>
 </resources>
