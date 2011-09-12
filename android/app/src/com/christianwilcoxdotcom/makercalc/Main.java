@@ -1,6 +1,7 @@
 package com.christianwilcoxdotcom.makercalc;
 
 import android.app.Activity;
+import android.content.Intent;
 //import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,26 +9,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-class MyWebViewClient extends WebViewClient {
-	
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (Uri.parse(url).getHost().equals("makercalc.appspot.com")) {
-            // This is my web site, so do not override; let my WebView load the page
-            return false;
-        }
-        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        //startActivity(intent);
-        return true;
-    }
-}
 
 public class Main extends Activity {
 	
@@ -73,6 +60,22 @@ public class Main extends Activity {
 
 	    }
 	}
+
+  class MyWebViewClient extends WebViewClient {
+		
+	    @Override
+	    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	        if (Uri.parse(url).getHost().equals("makercalc.appspot.com")) {
+	            // This is my web site, so do not override; let my WebView load the page
+	            return false;
+	        }
+	        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+	        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+	        //startActivity(intent);
+	        return true;
+	    }
+	}
+
   
   /**
    * Provides a hook for calling "alert" from javascript. Useful for
@@ -93,4 +96,20 @@ public class Main extends Activity {
       inflater.inflate(R.menu.settings, menu);
       return true;
   }
+  
+  public void onCncItemClick(MenuItem item) {
+	  Intent intent = new Intent(this, Cnc.class);
+	  startActivity(intent);
+  }
+
+  public void onMathItemClick(MenuItem item) {
+	  Intent intent = new Intent(this, Math.class);
+	  startActivity(intent);
+  }
+
+  public void onVizItemClick(MenuItem item) {
+	  Intent intent = new Intent(this, Visualization.class);
+	  startActivity(intent);
+  }
+
 }
