@@ -4,9 +4,6 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /
-  script: home.py
-
 - url: /css
   static_dir: css
 - url: /js
@@ -20,5 +17,5 @@ handlers:
   script: admin.py
   login: admin
 
-- url: /.*
-  script: not_found.py
+- url: .*
+  script: home.py
